@@ -1,6 +1,8 @@
 %h1= @article.title
 %p= @article.content
 
-= link_to "Back", root_url, class: "btn btn-default"
-= link_to "Edit", edit_article_path(@article), class: "btn btn-warning"
-= link_to "Delete", article_path, method: :delete, data: {confirm: "Are You sure?"}, class: "btn btn-danger"
+.btn-group
+	= link_to "Back", root_url, class: "btn btn-default"
+	- if user_signed_in?
+		= link_to "Edit", edit_article_path(@article), class: "btn btn-warning"
+		= link_to "Delete", article_path, method: :delete, data: {confirm: "Are You sure?"}, class: "btn btn-danger"
