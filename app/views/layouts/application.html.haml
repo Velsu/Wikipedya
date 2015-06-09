@@ -1,0 +1,35 @@
+!!! 5
+
+%html
+%head
+	%title Wikipedya
+	= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+	= javascript_include_tag 'application', 'data-turbolinks-track' => true
+	= csrf_meta_tags
+
+%body
+.nav.navbar.navbar-default
+	.container
+		.navbar-brand Wikipedya
+		%ul.nav.navbar-nav
+
+		
+		- if user_signed_in?
+			= link_to "New Article", new_article_path, class: "navbar-text navbar-right navbar-link"
+			= link_to "Log Out", destroy_user_session_path, method: :delete, class: "navbar-text navbar-right navbar-link"
+		- else
+			= link_to "Sign up", new_user_registration_path, class: "navbar-text navbar-right navbar-link"
+			= link_to "Sign in", new_user_session_path, class: "navbar-text navbar-right navbar-link"
+
+	
+
+.container
+	.row
+		.col-md-8
+			= yield
+		.col-md-4
+			%ul.list-group
+				%li= link_to "All Articles", root_path, class: "list-group-item"
+				- Category.all.each do |category|
+					%li= link_to category.name, articles_path(category: category.name), class: "list-group-item"
+
