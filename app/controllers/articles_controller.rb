@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
 
-	before_action :find_article, only: [:show]
+	before_action :find_article, only: [:show, :destroy, :update, :edit]
 	before_action :authenticate_user!, except: [:index, :show]
 
 	def index
@@ -29,10 +29,17 @@ class ArticlesController < ApplicationController
 		end
 	end
 
-	def delete
+	def destroy
+		@article.destroy
+		redirect_to root_url, notice: "Article deleted successfully"
 	end
 
 	def update
+		if @article.update(article_params)
+			redirect_to @article, notice: "Article updated successfully"
+		else
+			render 'edit'
+		end
 	end
 
 	def edit
